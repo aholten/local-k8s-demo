@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bun-http-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bun-http-server
+  template:
+    metadata:
+      labels:
+        app: bun-http-server
+    spec:
+      containers:
+      - name: bun-http-server
+        image: bun_http_server:v1
+        ports:
+        - containerPort: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bun-http-server
+spec:
+  selector:
+    app: bun-http-server
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: LoadBalancer
